@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    build: apache
+    ports:
+      - 8080:80
+    volumes:
+      - ./apache/test.lan.conf:/etc/apache2/sites-enabled/test.lan.conf
+      - ./apache/apache2.conf:/etc/apache2/apache2.conf
+      - ./html:/web/test.lan
+  dns:
+    build: dns
+    # cap_add:
+    #   - NET_ADMIN
+    # ports:
+    #   - 5333:53/udp
+    #   - 5333:53/udp
+    command: ['--addn-hosts=/rexistros.txt']
+    volumes:
+      - ./dns/rexistros.txt:/rexistros.txt
+  cliente:
+    build: cliente
+    # dns:
+    #   - 10.0.22.100#5333
+    # depends_on:
+    #   - dnsserver
+    volumes:
+      - ./cliente/inicio.sh:/inicio.sh
+    command: bash /inicio.sh
