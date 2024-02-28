@@ -1,0 +1,26 @@
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/meuvhost.conf:/etc/nginx/conf.d/meuvhost.conf
+      - ./app:/app
+  php:
+    build: php
+    volumes:
+      - ./php/php.ini:/etc/php/8.2/fpm/php.ini
+#   basedatos:
+#     image: mariadb
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=abc123.
+#       - MYSQL_DATABASE=bd1
+#       - MYSQL_USER=user
+#       - MYSQL_PASSWORD=abc123.
+#     volumes:
+#       - datos:/var/lib/mysql
+#       # - ./bd1/backup.sql:/docker-entrypoint-initdb.d/backup.sql
+#       - ./bd1:/bd1
+# volumes:
+#   datos:

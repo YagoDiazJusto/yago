@@ -1,0 +1,26 @@
+services:
+  web:
+    build: apache
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./app:/app
+      - ./apache/exemplo.lan.conf:/etc/apache2/sites-enabled/exemplo.lan.conf
+  basededatos:
+    image: mysql:8.3
+    env_file:
+      - .env_bd
+    volumes:
+      - ./bd/backup.sql:/docker-entrypoint-initdb.d/backup.sql
+      - datos:/var/lib/mysql
+      - ./bd:/bd
+      - ./apache/certificados:/certificados
+  phpmyAdmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    env_file:
+      - .env_php
+volumes:
+  datos:
